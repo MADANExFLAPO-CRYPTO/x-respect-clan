@@ -1,0 +1,234 @@
+
+Vous avez dit :
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X-RESPECT Clan</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body, html{width:100%;height:100%;font-family:Arial;color:white;overflow:hidden;}
+  
+  .video-bg{
+    position:fixed;top:0;left:0;width:100%;height:100%;z-index:-100;
+    background: url('https://via.placeholder.com/1920x1080/000000/ffffff?text=Fallback+Background') no-repeat center center/cover;
+  }
+  .video-bg iframe{width:100%;height:100%;object-fit:cover;border:none;}
+
+  /* Animated Logo */
+  .logoX {
+    width: 200px;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 0 15px yellow);
+    animation: pulseGlow 3s infinite ease-in-out;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+
+  .logoX:hover {
+    transform: scale(1.2) rotate(2deg);
+    filter: drop-shadow(0 0 25px #ffea00);
+  }
+
+  @keyframes pulseGlow {
+    0% {transform: scale(1);filter: drop-shadow(0 0 10px yellow);}
+    50% {transform: scale(1.05);filter: drop-shadow(0 0 35px #ffdd00);}
+    100% {transform: scale(1);filter: drop-shadow(0 0 15px yellow);}
+  }
+
+  .welcomePage{
+    position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.7);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+    animation:fadeIn 1s;
+  }
+  
+  .welcomePage button{
+    margin-top:30px;padding:15px 40px;font-size:1.3em;border:none;border-radius:50px;
+    cursor:pointer;background:#ff4500;color:white;font-weight:bold;transition:0.3s;
+  }
+  .welcomePage button:hover, .welcomePage button:focus{transform:scale(1.1);outline:2px solid white;}
+  
+  #mainPage,#developerPage{display:none;text-align:center;padding-top:50px;}
+
+  /* Player list hover glow */
+  #mainPage ul li {
+    transition: 0.3s;
+    cursor: default;
+  }
+  #mainPage ul li:hover {
+    transform: scale(1.1);
+    color: yellow;
+    text-shadow: 0 0 20px yellow;
+  }
+  
+  .iconBtn{
+    width:100px;height:100px;margin:15px;border-radius:50%;display:flex;
+    justify-content:center;align-items:center;font-size:2.5em;cursor:pointer;
+    transition:0.3s;position:relative;
+  }
+  .iconBtn:hover, .iconBtn:focus{transform:scale(1.2);outline:2px solid white;}
+
+  .discord{background:#7289da;}
+  .whatsapp{background:#25d366;}
+  .tiktok{background:#000;}
+  .plus{background:yellow;color:black;font-weight:bold;box-shadow:0 0 12px yellow;}
+  .instagram{background:#c13584;}
+
+  /* Tooltip on + */
+  .iconBtn.plus::after {
+    content: "MADANE'S PROFILE";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    color: yellow;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    border: 1px solid yellow;
+    transition: 0.3s;
+  }
+  .iconBtn.plus:hover::after {
+    opacity: 1;
+    bottom: -60px;
+  }
+
+  /* JOIN Button Animation */
+  .joinBtn {
+    margin-top: 35px;
+    padding: 18px 60px;
+    background: black;
+    border: 3px solid yellow;
+    border-radius: 50px;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: yellow;
+    cursor: pointer;
+    transition: 0.3s;
+    text-shadow: 0 0 10px yellow;
+    animation: joinPulse 3s infinite ease-in-out;
+  }
+
+  .joinBtn:hover {
+    transform: scale(1.15);
+    background: yellow;
+    color: black;
+    border-color: white;
+    text-shadow: 0 0 25px black;
+  }
+
+  @keyframes joinPulse {
+    0% { box-shadow: 0 0 10px yellow; }
+    50% { box-shadow: 0 0 30px yellow, 0 0 50px orange; }
+    100% { box-shadow: 0 0 10px yellow; }
+  }
+
+  @media (max-width: 768px) {
+    .welcomePage div:first-child {font-size: 2.5em;}
+    .iconBtn {width: 80px; height: 80px; font-size: 2em;}
+    #answer {width: 100px;}
+  }
+
+</style>
+</head>
+<body>
+
+<div class="video-bg">
+  <iframe src="https://www.youtube.com/embed/B6ZrAaGpsNI?autoplay=1&mute=1&controls=0&loop=1&playlist=B6ZrAaGpsNI&modestbranding=1&rel=0" title="Background Video"></iframe>
+</div>
+
+<audio id="bgMusic" loop preload="metadata">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="clickSound">
+  <source src="https://cdn.pixabay.com/audio/2021/09/06/audio_31f30d370b.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="joinSound">
+  <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_ad95ca3829.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicToggle" aria-label="Toggle background music" style="
+position:fixed;bottom:20px;right:20px;padding:12px 18px;border:none;border-radius:50px;
+background:rgba(255,69,0,0.8);color:white;font-size:16px;cursor:pointer;transition:0.3s;">
+🔇 Mute</button>
+
+<div id="welcome1" class="welcomePage">
+  <div style="font-size:4em;">X-RESPECT</div>
+  <button onclick="showMainPage()" aria-label="Enter the main page">Click to Enter 🚀</button>
+</div>
+
+<div id="mainPage">
+  <img src="https://i.postimg.cc/m2ygnWPV/589753435-876627304709333-5162296359246638588-n.jpg" class="logoX">
+
+  <h2 style="font-size:2.5em;text-shadow:0 0 15px yellow;">X-RESPECT</h2>
+
+  <div class="iconBtn discord" onclick="window.open('https://discord.gg/z555A8bR')"><i class="fab fa-discord"></i></div>
+  <div class="iconBtn whatsapp" onclick="window.open('https://wa.me/212682912651')"><i class="fab fa-whatsapp"></i></div>
+  <div class="iconBtn tiktok"><i class="fab fa-tiktok"></i></div>
+  <div class="iconBtn plus" onclick="secretGate()"><i class="fas fa-plus"></i></div>
+
+  <h3 style="margin-top:40px;font-size:2em;text-shadow:0 0 10px cyan;">CLAN MEMBERS</h3>
+
+  <ul style="list-style:none;margin-top:15px;font-size:1.5em;line-height:2em;text-shadow:0 0 10px #00ffff;">
+    <li>⚡ X-RP FLAPO</li>
+    <li>⚡ X-RP SKITCHA</li>
+    <li>⚡ X-RP المدمر</li>
+    <li>⚡ X-RP BYNAL</li>
+    <li>⚡ X-RP SHADOW</li>
+    <li>⚡ X-RP SEARGT</li>
+    <li>⚡ X-RP BL</li>
+  </ul>
+
+  <button class="joinBtn">JOIN THE CLAN ⚔</button>
+</div>
+
+<div id="developerPage" style="display:none;">
+  <h2 style="margin-bottom:20px;">MADANE'S PAGE</h2>
+  <div class="iconBtn instagram" onclick="window.open('https://www.instagram.com/madane_360/')"><i class="fab fa-instagram"></i></div>
+  <div class="iconBtn whatsapp" onclick="window.open('https://wa.me/212682912651')"><i class="fab fa-whatsapp"></i></div>
+</div>
+
+<script>
+  const music = document.getElementById("bgMusic");
+  const toggleBtn = document.getElementById("musicToggle");
+
+  music.muted = true;
+
+  toggleBtn.onclick = () => {
+    music.muted = !music.muted;
+    toggleBtn.innerText = music.muted ? "🔇 Mute" : "🔊 Playing";
+  };
+
+  function showMainPage() {
+    document.getElementById("welcome1").style.display = "none";
+    document.getElementById("mainPage").style.display = "block";
+    music.volume = 0.5;
+    music.play().catch(()=>{});
+  }
+
+  function secretGate() {
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("developerPage").style.display = "block";
+  }
+
+  document.querySelector(".logoX").onclick = () => {
+    document.getElementById("clickSound").play();
+  };
+
+  document.querySelector(".joinBtn").onclick = () => {
+    document.getElementById("joinSound").play();
+    setTimeout(() => window.open("https://discord.gg/z555A8bR"), 400);
+  };
+</script>
+
+</body>
+</html>
